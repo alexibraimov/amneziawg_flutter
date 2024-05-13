@@ -19,9 +19,9 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import com.beust.klaxon.Klaxon
-import com.wireguard.android.backend.*
-import com.wireguard.crypto.Key
-import com.wireguard.crypto.KeyPair
+import org.amnezia.awg.backend.*
+import org.amnezia.awg.crypto.Key
+import org.amnezia.awg.cryptoKeyPair
 import io.flutter.plugin.common.EventChannel
 import kotlinx.coroutines.*
 import java.util.*
@@ -48,7 +48,7 @@ class WireguardFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private var havePermission = false
     private lateinit var context: Context
     private var activity: Activity? = null
-    private var config: com.wireguard.config.Config? = null
+    private var config: org.amnezia.awg.config.Config? = null
     private var tunnel: WireGuardTunnel? = null
     private val TAG = "NVPN"
     var isVpnChecked = false
@@ -237,7 +237,7 @@ class WireguardFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
                 }
                 updateStage("prepare")
                 val inputStream = ByteArrayInputStream(wgQuickConfig.toByteArray())
-                config = com.wireguard.config.Config.parse(inputStream)
+                config = org.amnezia.awg.config.Config.parse(inputStream)
                 updateStage("connecting")
                 futureBackend.await().setState(
                     tunnel(tunnelName) { state ->
